@@ -55,3 +55,10 @@ const PORT = process.env.PORT || 3000;
 initDB().then(() => {
   app.listen(PORT, () => console.log(`Royal Bites running on port ${PORT}`));
 });
+
+setInterval(() => {
+  const https = require('https');
+  https.get('https://royal-bites.onrender.com', (res) => {
+    console.log('Keep-alive ping:', res.statusCode);
+  }).on('error', () => {});
+}, 14 * 60 * 1000);
