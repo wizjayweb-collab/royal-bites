@@ -1,0 +1,238 @@
+<div class="page-header">
+  <h1>🍽️ Menu Items</h1>
+  <p>Add, edit or remove items — choose image or emoji for each dish</p>
+</div>
+
+<div class="menu-admin-grid">
+  {{!-- ADD FORM --}}
+  <div class="admin-card">
+    <div class="admin-card-header"><div class="admin-card-title">➕ Add New Item</div></div>
+    <form action="/admin/menu" method="POST" enctype="multipart/form-data" class="admin-form">
+
+      <div class="form-group">
+        <label>Dish Name *</label>
+        <input type="text" name="name" placeholder="e.g. Grilled Salmon" required>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" rows="2" placeholder="Describe the dish..."></textarea>
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-group">
+          <label>Price *</label>
+          <input type="text" name="price" placeholder="e.g. $25" required>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select name="category">
+            <option value="starters">🥗 Starters</option>
+            <option value="mains">🍽️ Main Course</option>
+            <option value="seafood">🐟 Seafood</option>
+            <option value="desserts">🍰 Desserts</option>
+            <option value="drinks">🍹 Drinks</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Tag <small style="color:#888">(optional)</small></label>
+        <input type="text" name="tag" placeholder="e.g. Chef's Pick, Vegan, Spicy">
+      </div>
+
+      {{!-- MEDIA TOGGLE --}}
+      <div class="form-group">
+        <label>Dish Display</label>
+        <div class="media-toggle">
+          <label class="toggle-opt active" id="addEmojiOpt">
+            <input type="radio" name="media_type" value="emoji" checked onchange="toggleMedia('add','emoji')">
+            😊 Use Emoji
+          </label>
+          <label class="toggle-opt" id="addImageOpt">
+            <input type="radio" name="media_type" value="image" onchange="toggleMedia('add','image')">
+            📷 Upload Photo
+          </label>
+        </div>
+      </div>
+
+      <div id="addEmojiField" class="form-group">
+        <label>Emoji</label>
+        <input type="text" name="emoji" placeholder="🍽️" maxlength="4" style="font-size:1.5rem;text-align:center">
+      </div>
+
+      <div id="addImageField" class="form-group" style="display:none">
+        <label>Dish Photo</label>
+        <div class="upload-area" id="addUploadArea">
+          <div class="upload-icon">📷</div>
+          <div class="upload-text">Click to upload or drag & drop</div>
+          <div class="upload-hint">JPG, PNG — Max 2MB</div>
+          <input type="file" name="image" accept="image/*" class="upload-input" onchange="previewImage(this,'addPreview')">
+        </div>
+        <img id="addPreview" style="display:none;width:100%;max-height:160px;object-fit:cover;border-radius:10px;margin-top:8px">
+      </div>
+
+      <button type="submit" class="btn-primary-admin" style="width:100%">➕ Add to Menu</button>
+    </form>
+  </div>
+
+  {{!-- ITEMS LIST --}}
+  <div class="admin-card">
+    <div class="admin-card-header">
+      <div class="admin-card-title">🍽️ Menu Items ({{items.length}})</div>
+    </div>
+    {{#if items}}
+    <div class="menu-items-list">
+      {{#each items}}
+      <div class="menu-admin-card">
+        <div class="menu-admin-media">
+          {{#if this.image_data}}
+            <img src="{{this.image_data}}" alt="{{this.name}}">
+          {{else}}
+            <span>{{this.emoji}}</span>
+          {{/if}}
+        </div>
+        <div class="menu-admin-info">
+          <div class="menu-admin-top">
+            <strong>{{this.name}}</strong>
+            <span class="menu-price-badge">{{this.price}}</span>
+          </div>
+          <div style="margin:4px 0">
+            <span class="badge">{{this.category}}</span>
+            {{#if this.tag}}<span class="badge" style="background:rgba(46,204,113,0.12);color:#2ecc71;margin-left:4px">{{this.tag}}</span>{{/if}}
+          </div>
+          <p class="menu-admin-desc">{{this.description}}</p>
+          <div class="menu-admin-actions">
+            <button onclick="openEdit({{this.id}},'{{this.name}}','{{this.description}}','{{this.price}}','{{this.category}}','{{this.emoji}}','{{this.tag}}','{{this.image_data}}')" class="btn-sm btn-warning">✏️ Edit</button>
+            <form action="/admin/menu/{{this.id}}/delete" method="POST" style="margin:0" onsubmit="return confirm('Delete {{this.name}}?')">
+              <button type="submit" class="btn-sm btn-danger">🗑️ Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    {{else}}
+    <div class="empty-state">🍽️ No menu items yet. Add your first dish!</div>
+    {{/if}}
+  </div>
+</div>
+
+{{!-- EDIT MODAL --}}
+<div id="editModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9999;align-items:center;justify-content:center;padding:16px">
+  <div style="background:#13132a;border:1px solid #2a2a4a;border-radius:16px;padding:28px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div style="font-weight:800;font-size:1.1rem;color:white">✏️ Edit Item</div>
+      <button onclick="closeEdit()" style="background:none;border:none;color:#888;font-size:1.5rem;cursor:pointer">×</button>
+    </div>
+    <form id="editForm" method="POST" enctype="multipart/form-data" class="admin-form">
+      <div class="form-group"><label>Name</label><input type="text" name="name" id="eName" required></div>
+      <div class="form-group"><label>Description</label><textarea name="description" id="eDesc" rows="2"></textarea></div>
+      <div class="form-row-2">
+        <div class="form-group"><label>Price</label><input type="text" name="price" id="ePrice" required></div>
+        <div class="form-group"><label>Category</label>
+          <select name="category" id="eCat">
+            <option value="starters">🥗 Starters</option>
+            <option value="mains">🍽️ Mains</option>
+            <option value="seafood">🐟 Seafood</option>
+            <option value="desserts">🍰 Desserts</option>
+            <option value="drinks">🍹 Drinks</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Tag</label><input type="text" name="tag" id="eTag"></div>
+
+      <div class="form-group">
+        <label>Dish Display</label>
+        <div class="media-toggle">
+          <label class="toggle-opt" id="editEmojiOpt">
+            <input type="radio" name="media_type" value="emoji" onchange="toggleMedia('edit','emoji')">
+            😊 Use Emoji
+          </label>
+          <label class="toggle-opt" id="editImageOpt">
+            <input type="radio" name="media_type" value="image" onchange="toggleMedia('edit','image')">
+            📷 Upload Photo
+          </label>
+        </div>
+      </div>
+
+      <div id="editEmojiField" class="form-group">
+        <label>Emoji</label>
+        <input type="text" name="emoji" id="eEmoji" maxlength="4" style="font-size:1.5rem;text-align:center">
+      </div>
+
+      <div id="editImageField" class="form-group" style="display:none">
+        <label>Dish Photo</label>
+        <img id="editCurrentImg" style="width:100%;max-height:140px;object-fit:cover;border-radius:10px;margin-bottom:8px;display:none">
+        <div class="upload-area">
+          <div class="upload-icon">📷</div>
+          <div class="upload-text">Click to upload new photo</div>
+          <input type="file" name="image" accept="image/*" class="upload-input" onchange="previewImage(this,'editPreview')">
+        </div>
+        <img id="editPreview" style="display:none;width:100%;max-height:140px;object-fit:cover;border-radius:10px;margin-top:8px">
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button type="submit" class="btn-primary-admin" style="flex:1">💾 Save Changes</button>
+        <button type="button" onclick="closeEdit()" class="btn-sm" style="padding:12px 20px">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function toggleMedia(form, type) {
+  const emojiField = document.getElementById(form+'EmojiField');
+  const imageField = document.getElementById(form+'ImageField');
+  const emojiOpt = document.getElementById(form+'EmojiOpt');
+  const imageOpt = document.getElementById(form+'ImageOpt');
+  if (type === 'emoji') {
+    emojiField.style.display = 'block';
+    imageField.style.display = 'none';
+    emojiOpt.classList.add('active');
+    imageOpt.classList.remove('active');
+  } else {
+    emojiField.style.display = 'none';
+    imageField.style.display = 'block';
+    imageOpt.classList.add('active');
+    emojiOpt.classList.remove('active');
+  }
+}
+
+function previewImage(input, previewId) {
+  const preview = document.getElementById(previewId);
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => { preview.src = e.target.result; preview.style.display = 'block'; };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function openEdit(id, name, desc, price, cat, emoji, tag, imgData) {
+  document.getElementById('eName').value = name;
+  document.getElementById('eDesc').value = desc;
+  document.getElementById('ePrice').value = price;
+  document.getElementById('eCat').value = cat;
+  document.getElementById('eEmoji').value = emoji || '';
+  document.getElementById('eTag').value = tag || '';
+  document.getElementById('editForm').action = '/admin/menu/' + id + '/edit';
+
+  // Show current image if exists
+  const currentImg = document.getElementById('editCurrentImg');
+  if (imgData && imgData !== 'undefined' && imgData !== 'null') {
+    currentImg.src = imgData;
+    currentImg.style.display = 'block';
+    toggleMedia('edit', 'image');
+    document.querySelector('#editImageOpt input').checked = true;
+  } else {
+    currentImg.style.display = 'none';
+    toggleMedia('edit', 'emoji');
+    document.querySelector('#editEmojiOpt input').checked = true;
+  }
+
+  document.getElementById('editPreview').style.display = 'none';
+  document.getElementById('editModal').style.display = 'flex';
+}
+
+function closeEdit() { document.getElementById('editModal').style.display = 'none'; }
+</script>

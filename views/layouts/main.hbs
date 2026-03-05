@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👑</text></svg>">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <span class="logo-crown">👑</span>
+        <span class="logo-text">Royal Bites</span>
+      </a>
+      <button class="nav-toggle" id="navToggle">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/">Home</a></li>
+        <li><a href="/menu">Menu</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/reservations">Reservations</a></li>
+        <li><a href="/feedback">Reviews</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <a href="/reservations" class="nav-cta">Book a Table</a>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    {{{body}}}
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="footer-logo">👑 Royal Bites</div>
+        <p>Experience the finest cuisine in an atmosphere of luxury and warmth. Every meal is a royal experience.</p>
+        <div class="footer-socials">
+          <a href="#">📘</a>
+          <a href="#">📸</a>
+          <a href="#">🐦</a>
+          <a href="#">▶️</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/menu">Menu</a></li>
+          <li><a href="/gallery">Gallery</a></li>
+          <li><a href="/reservations">Reservations</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact Us</h4>
+        <p>📍 123 Royal Street, Lagos</p>
+        <p>📞 +234 800 000 0000</p>
+        <p>📧 info@royalbites.com</p>
+        <p>🕐 Mon-Sun: 10am - 11pm</p>
+      </div>
+      <div class="footer-hours">
+        <h4>Opening Hours</h4>
+        <p>Monday - Friday<br><strong>10:00 AM - 11:00 PM</strong></p>
+        <p>Saturday - Sunday<br><strong>8:00 AM - 12:00 AM</strong></p>
+        <p style="margin-top:12px;color:#f4a225">Reservations recommended</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Royal Bites Restaurant. Built by <a href="https://wizjayweb.is-a.dev" target="_blank">wizjayweb</a></p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

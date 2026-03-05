@@ -1,0 +1,58 @@
+<div class="page-header">
+  <h1>👑 Dashboard</h1>
+  <p>Welcome back! Here's your restaurant overview.</p>
+</div>
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon">📅</div>
+    <div class="stat-info">
+      <div class="stat-num">{{stats.reservations}}</div>
+      <div class="stat-label">Total Reservations</div>
+    </div>
+  </div>
+  <div class="stat-card orange">
+    <div class="stat-icon">⏳</div>
+    <div class="stat-info">
+      <div class="stat-num">{{stats.pending}}</div>
+      <div class="stat-label">Pending</div>
+    </div>
+  </div>
+  <div class="stat-card green">
+    <div class="stat-icon">📩</div>
+    <div class="stat-info">
+      <div class="stat-num">{{stats.unread}}</div>
+      <div class="stat-label">Unread Messages</div>
+    </div>
+  </div>
+  <div class="stat-card purple">
+    <div class="stat-icon">🍽️</div>
+    <div class="stat-info">
+      <div class="stat-num">{{stats.menuCount}}</div>
+      <div class="stat-label">Menu Items</div>
+    </div>
+  </div>
+</div>
+<div class="admin-card">
+  <div class="admin-card-header">
+    <div class="admin-card-title">📅 Recent Reservations</div>
+    <a href="/admin/reservations" class="btn-sm">View All</a>
+  </div>
+  {{#if recentReservations}}
+  <table class="admin-table">
+    <thead><tr><th>Name</th><th>Date</th><th>Time</th><th>Guests</th><th>Status</th></tr></thead>
+    <tbody>
+      {{#each recentReservations}}
+      <tr>
+        <td><strong>{{this.name}}</strong><br><small>{{this.email}}</small></td>
+        <td>{{this.date}}</td>
+        <td>{{this.time}}</td>
+        <td>{{this.guests}}</td>
+        <td><span class="badge badge-{{this.status}}">{{this.status}}</span></td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{else}}
+  <div class="empty-state">📅 No reservations yet</div>
+  {{/if}}
+</div>

@@ -1,0 +1,95 @@
+<section class="page-hero">
+  <div class="page-hero-content">
+    <p class="section-eyebrow">✦ Book Your Table</p>
+    <h1>Make a Reservation</h1>
+    <p>Reserve your royal dining experience today</p>
+  </div>
+</section>
+
+<section class="reservations-section section">
+  <div class="container">
+    <div class="reservations-grid">
+      <!-- FORM -->
+      <div class="reservation-form-wrap">
+        <h2>Reserve a Table</h2>
+        {{#if success}}<div class="alert-success">✅ {{msg}}</div>{{/if}}
+        <form action="/reservations" method="POST" class="res-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" name="name" placeholder="John Smith" required>
+            </div>
+            <div class="form-group">
+              <label>Email *</label>
+              <input type="email" name="email" placeholder="john@email.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone Number *</label>
+              <input type="tel" name="phone" placeholder="+234 800 000 0000" required>
+            </div>
+            <div class="form-group">
+              <label>Number of Guests *</label>
+              <select name="guests" required>
+                <option value="">Select guests</option>
+                <option value="1">1 Person</option>
+                <option value="2">2 People</option>
+                <option value="3">3 People</option>
+                <option value="4">4 People</option>
+                <option value="5">5 People</option>
+                <option value="6">6 People</option>
+                <option value="7-10">7-10 People</option>
+                <option value="10+">10+ People (Private Dining)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date *</label>
+              <input type="date" name="date" required>
+            </div>
+            <div class="form-group">
+              <label>Time *</label>
+              <select name="time" required>
+                <option value="">Select time</option>
+                <option value="12:00 PM">12:00 PM - Lunch</option>
+                <option value="1:00 PM">1:00 PM - Lunch</option>
+                <option value="2:00 PM">2:00 PM - Lunch</option>
+                <option value="6:00 PM">6:00 PM - Dinner</option>
+                <option value="7:00 PM">7:00 PM - Dinner</option>
+                <option value="8:00 PM">8:00 PM - Dinner</option>
+                <option value="9:00 PM">9:00 PM - Dinner</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Special Requests</label>
+            <textarea name="message" rows="4" placeholder="Allergies, special occasions, dietary requirements..."></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;padding:16px">👑 Confirm Reservation</button>
+        </form>
+      </div>
+
+      <!-- INFO -->
+      <div class="reservation-info">
+        <div class="info-card">
+          <h3>📍 Find Us</h3>
+          <p>123 Royal Street<br>Victoria Island, Lagos</p>
+        </div>
+        <div class="info-card">
+          <h3>🕐 Opening Hours</h3>
+          <p>Monday - Friday: 10am - 11pm<br>Saturday: 9am - 12am<br>Sunday: 9am - 11pm</p>
+        </div>
+        <div class="info-card">
+          <h3>📞 Contact</h3>
+          <p>+234 800 000 0000<br>info@royalbites.com</p>
+        </div>
+        <div class="info-card">
+          <h3>🏰 Private Dining</h3>
+          <p>Planning a special event? We offer exclusive private dining rooms for groups of 10+. Contact us for details.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

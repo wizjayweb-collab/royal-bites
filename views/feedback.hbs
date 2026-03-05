@@ -1,0 +1,114 @@
+<section class="page-hero">
+  <div class="page-hero-content">
+    <p class="section-eyebrow">✦ Guest Reviews</p>
+    <h1>What Our Guests Say</h1>
+    <p>Real experiences from real guests</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    <!-- STATS BAR -->
+    {{#if count}}
+    <div class="review-stats">
+      <div class="review-avg">
+        <span class="avg-num">{{avg}}</span>
+        <div>
+          <div class="avg-stars">⭐⭐⭐⭐⭐</div>
+          <div class="avg-label">Based on {{count}} reviews</div>
+        </div>
+      </div>
+    </div>
+    {{/if}}
+
+    <div class="feedback-layout">
+
+      <!-- LEAVE A REVIEW FORM -->
+      <div class="admin-card" style="background:white;border:1px solid #eee">
+        <div style="font-size:1.3rem;font-weight:800;color:var(--dark);margin-bottom:20px">✍️ Leave a Review</div>
+        {{#if success}}<div class="alert-success" style="margin-bottom:16px">✅ {{success}}</div>{{/if}}
+        {{#if error}}<div style="background:#fee;color:#c00;padding:12px;border-radius:8px;margin-bottom:16px">❌ {{error}}</div>{{/if}}
+        <form action="/feedback" method="POST" class="res-form">
+          <div class="form-group">
+            <label>Your Name *</label>
+            <input type="text" name="name" placeholder="John Smith" required>
+          </div>
+          <div class="form-group">
+            <label>Email <small style="color:#999">(optional)</small></label>
+            <input type="email" name="email" placeholder="john@email.com">
+          </div>
+          <div class="form-group">
+            <label>Rating *</label>
+            <div class="star-picker" id="starPicker">
+              <span class="star" data-val="1">★</span>
+              <span class="star" data-val="2">★</span>
+              <span class="star" data-val="3">★</span>
+              <span class="star" data-val="4">★</span>
+              <span class="star" data-val="5">★</span>
+            </div>
+            <input type="hidden" name="rating" id="ratingInput" required>
+          </div>
+          <div class="form-group">
+            <label>Your Review *</label>
+            <textarea name="review" rows="4" placeholder="Tell us about your experience..." required></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;padding:14px">⭐ Submit Review</button>
+        </form>
+      </div>
+
+      <!-- REVIEWS LIST -->
+      <div>
+        {{#if reviews}}
+        <div style="display:flex;flex-direction:column;gap:20px">
+          {{#each reviews}}
+          <div class="review-card">
+            <div class="review-header">
+              <div class="review-avatar">{{firstChar this.name}}</div>
+              <div>
+                <strong>{{this.name}}</strong>
+                <div class="review-stars">
+                  {{#if (eq this.rating 5)}}⭐⭐⭐⭐⭐{{/if}}
+                  {{#if (eq this.rating 4)}}⭐⭐⭐⭐{{/if}}
+                  {{#if (eq this.rating 3)}}⭐⭐⭐{{/if}}
+                  {{#if (eq this.rating 2)}}⭐⭐{{/if}}
+                  {{#if (eq this.rating 1)}}⭐{{/if}}
+                </div>
+              </div>
+              <span class="review-date">{{this.created_at}}</span>
+            </div>
+            <p class="review-text">{{this.review}}</p>
+          </div>
+          {{/each}}
+        </div>
+        {{else}}
+        <div style="text-align:center;padding:80px 0;color:#999">
+          <div style="font-size:4rem;margin-bottom:16px">⭐</div>
+          <p>No reviews yet. Be the first to review!</p>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+let selectedRating = 0;
+const stars = document.querySelectorAll('.star');
+stars.forEach(star => {
+  star.addEventListener('mouseover', () => {
+    stars.forEach(s => s.classList.remove('active'));
+    for (let i = 0; i < star.dataset.val; i++) stars[i].classList.add('active');
+  });
+  star.addEventListener('click', () => {
+    selectedRating = star.dataset.val;
+    document.getElementById('ratingInput').value = selectedRating;
+    stars.forEach(s => s.classList.remove('selected'));
+    for (let i = 0; i < selectedRating; i++) stars[i].classList.add('selected');
+  });
+});
+document.getElementById('starPicker').addEventListener('mouseleave', () => {
+  stars.forEach(s => s.classList.remove('active'));
+  for (let i = 0; i < selectedRating; i++) stars[i].classList.add('selected');
+});
+</script>

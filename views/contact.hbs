@@ -1,0 +1,56 @@
+<section class="page-hero">
+  <div class="page-hero-content">
+    <p class="section-eyebrow">✦ Get In Touch</p>
+    <h1>Contact Us</h1>
+    <p>We'd love to hear from you</p>
+  </div>
+</section>
+
+<section class="contact-section section">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2>Visit Us</h2>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div><strong>Address</strong><p>123 Royal Street, Victoria Island, Lagos, Nigeria</p></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div><strong>Phone</strong><p>+234 800 000 0000</p></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div><strong>Email</strong><p>info@royalbites.com</p></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div><strong>Hours</strong><p>Mon-Fri: 10am-11pm<br>Sat-Sun: 9am-12am</p></div>
+        </div>
+      </div>
+      <div class="contact-form-wrap">
+        <h2>Send a Message</h2>
+        {{#if success}}<div class="alert-success">✅ {{msg}}</div>{{/if}}
+        <form action="/contact" method="POST" class="res-form">
+          <div class="form-group">
+            <label>Your Name *</label>
+            <input type="text" name="name" placeholder="John Smith" required>
+          </div>
+          <div class="form-group">
+            <label>Email Address *</label>
+            <input type="email" name="email" placeholder="john@email.com" required>
+          </div>
+          <div class="form-group">
+            <label>Subject</label>
+            <input type="text" name="subject" placeholder="Reservation enquiry, feedback...">
+          </div>
+          <div class="form-group">
+            <label>Message *</label>
+            <textarea name="message" rows="5" placeholder="Write your message here..." required></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;padding:16px">📨 Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

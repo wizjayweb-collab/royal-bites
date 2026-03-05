@@ -1,0 +1,37 @@
+<div class="page-header">
+  <h1>📅 Reservations</h1>
+  <p>Manage all table bookings</p>
+</div>
+<div class="admin-card">
+  {{#if reservations}}
+  <table class="admin-table">
+    <thead><tr><th>Guest</th><th>Date & Time</th><th>Guests</th><th>Message</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody>
+      {{#each reservations}}
+      <tr>
+        <td><strong>{{this.name}}</strong><br><small>{{this.email}}</small><br><small>{{this.phone}}</small></td>
+        <td>{{this.date}}<br><small>{{this.time}}</small></td>
+        <td>{{this.guests}}</td>
+        <td><small>{{this.message}}</small></td>
+        <td>
+          <form action="/admin/reservations/{{this.id}}/status" method="POST">
+            <select name="status" onchange="this.form.submit()" style="padding:4px 8px;border-radius:6px;border:1px solid #444;background:#0d0d1a;color:white;font-size:0.8rem">
+              <option value="pending" {{#if (eq this.status 'pending')}}selected{{/if}}>⏳ Pending</option>
+              <option value="confirmed" {{#if (eq this.status 'confirmed')}}selected{{/if}}>✅ Confirmed</option>
+              <option value="cancelled" {{#if (eq this.status 'cancelled')}}selected{{/if}}>❌ Cancelled</option>
+            </select>
+          </form>
+        </td>
+        <td>
+          <form action="/admin/reservations/{{this.id}}/delete" method="POST" onsubmit="return confirm('Delete?')">
+            <button type="submit" class="btn-sm btn-danger">🗑️</button>
+          </form>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{else}}
+  <div class="empty-state">📅 No reservations yet</div>
+  {{/if}}
+</div>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}} - Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+  {{#if isAdmin}}
+
+  <!-- MOBILE OVERLAY (tap to close sidebar) -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="sidebar-brand">
+        <span>👑 Royal Bites</span>
+        <span class="sidebar-sub">Admin Panel</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/admin/dashboard" class="sidebar-link {{#if (eq active 'dashboard')}}active{{/if}}">📊 Dashboard</a>
+        <a href="/admin/menu" class="sidebar-link {{#if (eq active 'menu')}}active{{/if}}">🍽️ Menu Items</a>
+        <a href="/admin/feedback" class="sidebar-link {{#if (eq active 'feedback')}}active{{/if}}">⭐ Reviews</a>
+        <a href="/admin/reservations" class="sidebar-link {{#if (eq active 'reservations')}}active{{/if}}">📅 Reservations</a>
+        <a href="/admin/messages" class="sidebar-link {{#if (eq active 'messages')}}active{{/if}}">📩 Messages</a>
+        <div class="sidebar-divider"></div>
+        <a href="/admin/settings" class="sidebar-link {{#if (eq active 'settings')}}active{{/if}}">⚙️ Settings</a>
+        <a href="/" target="_blank" class="sidebar-link">🏠 View Site</a>
+        <div class="sidebar-divider"></div>
+        <form method="POST" action="/admin/logout" style="margin:0">
+          <button type="submit" class="sidebar-link sidebar-logout">🚪 Logout</button>
+        </form>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="admin-content">
+
+      <!-- MOBILE TOPBAR (only shows on phone) -->
+      <div class="mobile-topbar">
+        <div class="mobile-topbar-brand">👑 Royal Bites Admin</div>
+        <button class="mobile-menu-btn" onclick="openSidebar()">☰ Menu</button>
+      </div>
+
+      <div class="admin-main">
+        {{#if success}}<div class="alert alert-success">✅ {{success}} <button onclick="this.parentElement.remove()">×</button></div>{{/if}}
+        {{#if error}}<div class="alert alert-error">❌ {{error}} <button onclick="this.parentElement.remove()">×</button></div>{{/if}}
+        {{{body}}}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openSidebar() {
+      document.getElementById('adminSidebar').classList.add('open');
+      document.getElementById('sidebarOverlay').classList.add('open');
+    }
+    function closeSidebar() {
+      document.getElementById('adminSidebar').classList.remove('open');
+      document.getElementById('sidebarOverlay').classList.remove('open');
+    }
+    // Close sidebar when a link is clicked on mobile
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) closeSidebar();
+      });
+    });
+  </script>
+
+  {{else}}
+  <div class="admin-login-wrap">{{{body}}}</div>
+  {{/if}}
+</body>
+</html>

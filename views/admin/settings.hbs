@@ -1,0 +1,38 @@
+<div class="page-header">
+  <h1>⚙️ Settings</h1>
+  <p>Customize your restaurant website</p>
+</div>
+<div style="display:grid;gap:24px">
+  <div class="admin-card">
+    <div class="admin-card-header"><div class="admin-card-title">🏪 Restaurant Info</div></div>
+    <form action="/admin/settings" method="POST" class="admin-form">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="form-group"><label>Restaurant Name</label><input type="text" name="restaurant_name" value="{{cfg.restaurant_name}}"></div>
+        <div class="form-group"><label>Tagline</label><input type="text" name="tagline" value="{{cfg.tagline}}"></div>
+        <div class="form-group"><label>Phone</label><input type="text" name="phone" value="{{cfg.phone}}"></div>
+        <div class="form-group"><label>Email</label><input type="email" name="email" value="{{cfg.email}}"></div>
+        <div class="form-group"><label>Address</label><input type="text" name="address" value="{{cfg.address}}"></div>
+        <div class="form-group"><label>Weekday Hours</label><input type="text" name="hours_weekday" value="{{cfg.hours_weekday}}"></div>
+        <div class="form-group"><label>Weekend Hours</label><input type="text" name="hours_weekend" value="{{cfg.hours_weekend}}"></div>
+      </div>
+      <div class="form-group"><label>Hero Title</label><input type="text" name="hero_title" value="{{cfg.hero_title}}"></div>
+      <div class="form-group"><label>Hero Description</label><textarea name="hero_desc" rows="2">{{cfg.hero_desc}}</textarea></div>
+      <div class="form-group"><label>About Text</label><textarea name="about_text" rows="3">{{cfg.about_text}}</textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+        <div class="form-group"><label>Facebook URL</label><input type="text" name="facebook" value="{{cfg.facebook}}"></div>
+        <div class="form-group"><label>Instagram URL</label><input type="text" name="instagram" value="{{cfg.instagram}}"></div>
+        <div class="form-group"><label>Twitter URL</label><input type="text" name="twitter" value="{{cfg.twitter}}"></div>
+      </div>
+      <button type="submit" class="btn-primary-admin">💾 Save Settings</button>
+    </form>
+  </div>
+  <div class="admin-card">
+    <div class="admin-card-header"><div class="admin-card-title">🔐 Change Password</div></div>
+    <form action="/admin/settings/password" method="POST" class="admin-form" style="max-width:400px">
+      <div class="form-group"><label>Current Password</label><input type="password" name="current_password" required></div>
+      <div class="form-group"><label>New Password</label><input type="password" name="new_password" required></div>
+      <div class="form-group"><label>Confirm New Password</label><input type="password" name="confirm_password" required></div>
+      <button type="submit" class="btn-primary-admin">🔐 Change Password</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+{
+  "name": "royal-bites",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "connect-flash": "^0.1.1",
+    "express": "^5.2.1",
+    "express-handlebars": "^8.0.6",
+    "express-session": "^1.19.0",
+    "handlebars": "^4.7.8",
+    "multer": "^2.1.1",
+    "nodemailer": "^8.0.1",
+    "sql.js": "^1.14.1"
+  }
+}
